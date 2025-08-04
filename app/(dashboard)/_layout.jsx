@@ -6,6 +6,7 @@ import { Colors } from '../../constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import UserOnly from '../../components/auth/UserOnly'
 import { LibraryProvider } from '../../contexts/LibraryContext'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const DashboardLayout = () => {
     const colorScheme = useColorScheme()

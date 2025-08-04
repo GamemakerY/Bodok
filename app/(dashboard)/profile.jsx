@@ -7,6 +7,7 @@ import { useUser } from '../../hooks/useUser'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedOption from '../../components/ThemedOption'
 import { router } from 'expo-router'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const Profile = () => {
 
@@ -17,6 +18,7 @@ const Profile = () => {
   }
 
   return (
+    
     <ThemedView style={styles.container}>
     <Spacer/>
 
@@ -52,8 +54,9 @@ export default Profile
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: 'center'
+        justifyContent: "flex-start",
+        alignItems: 'stretch',
+        padding: 15
     },
     heading: {
         fontWeight: 'bold',

@@ -21,8 +21,11 @@ const ViewLibrary = () => {
         text="Book description is a thing"
         style = {{
         }}/>
-        <ThemedButton value = {'Add Books'} onPress={() => {handlePress()}}></ThemedButton>
-    </ThemedView>
+        
+        <ThemedButton value = {'Add Books'} onPress={() => {handlePress()}}
+         alignSelf="center"></ThemedButton>
+         </ThemedView>
+         //Eventually, change the style of the button with a + symbol and maybe fix it at the bottom right
   )
 }
 
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        alignItems: 'center',
+        alignItems: 'stretch',
         padding: 15
     },
 })

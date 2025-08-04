@@ -22,12 +22,8 @@ const CreateBook = () => {
       if (!title.trim() || !author.trim() || !description.trim()) return
       setLoading(true)
 
-      console.log("Set loading...")
-
       await createBook({title, description, author})
-
-      console.log("created book in the database")
-
+      
       setTitle("")
       setAuthor("")
       setDescription("")
