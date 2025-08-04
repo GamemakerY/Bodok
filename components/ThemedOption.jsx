@@ -5,7 +5,7 @@ import ThemedText from './ThemedText'
 import { Colors } from '../constants/Colors'
 import Spacer from './Spacer'
 
-const ThemedCard = ({icon, heading, text}) => {
+const ThemedOption = ({icon, heading, text}) => {
     const colorScheme = useColorScheme()
     const theme = Colors[colorScheme] ?? Colors.light
   return (
@@ -37,12 +37,17 @@ const ThemedCard = ({icon, heading, text}) => {
     <ThemedText>{text}</ThemedText>
     </View>
 
+    <Ionicons name = 'chevron-forward-outline' size = {40} style = {{
+        color: theme.text,
+        marginLeft: 'auto'
+    }}/>
+
     </View>
     <Spacer height = {6}/>
     </>
   )
 }
 
-export default ThemedCard
+export default ThemedOption
 
 const styles = StyleSheet.create({})

@@ -5,12 +5,14 @@ import { useColorScheme } from 'react-native'
 import { Colors } from '../../constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import UserOnly from '../../components/auth/UserOnly'
+import { LibraryProvider } from '../../contexts/LibraryContext'
 
 const DashboardLayout = () => {
     const colorScheme = useColorScheme()
     const theme = Colors[colorScheme] ?? Colors.light
 
   return (
+    <LibraryProvider>
     <UserOnly>
     <Tabs 
     screenOptions={{
@@ -56,9 +58,12 @@ const DashboardLayout = () => {
       />
     )}}/>
 
+    <Tabs.Screen name = 'createbook' options={{href: null}}/>
+    <Tabs.Screen name = 'viewlibrary' options={{href: null}}/>
 
     </Tabs>  
     </UserOnly>
+    </LibraryProvider>
   )
 }
 

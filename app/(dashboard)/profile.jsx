@@ -1,32 +1,48 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import Spacer from '../../components/Spacer'
 import { useUser } from '../../hooks/useUser'
 import ThemedButton from '../../components/ThemedButton'
+import ThemedOption from '../../components/ThemedOption'
+import { router } from 'expo-router'
 
 const Profile = () => {
 
   const {logout, user} = useUser()
 
+  const handlePress = () => {
+    router.replace('/viewlibrary')
+  }
+
   return (
     <ThemedView style={styles.container}>
-      <ThemedText title={true} style = {styles.heading}>Your Profile</ThemedText>
-      <Spacer/>
-      <ThemedText>Here is your Email: </ThemedText>
+    <Spacer/>
 
-      <Spacer height={5}/>
+    <ThemedText style = {styles.heading} title = {true}>
+      Your Library
+    </ThemedText>
 
-      {user && <ThemedText>{user.email}</ThemedText>}
-      
-      <Spacer/>
-      
-    <ThemedButton onPress={logout} value={'Logout'}>
+    <Spacer height = {5}/>
+
+    <TouchableOpacity onPress={() => handlePress()}>
+    
+    <ThemedOption
+    icon="library-outline"
+    heading="My Library"
+    text="3 Books"
+    arrow={true}
+    />
+    </TouchableOpacity>
+
+    <View style = {{
+      alignSelf: 'center'
+    }}>
+    <ThemedButton onPress={logout} value={'Logout'} >
     </ThemedButton>
-
+    </View>  
     </ThemedView>
-
 
   )
 }

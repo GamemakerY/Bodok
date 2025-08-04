@@ -4,7 +4,7 @@ import { Slot, Stack } from 'expo-router'
 import {Colors} from '../constants/Colors.js'
 import { StatusBar } from 'react-native-web'
 import { UserProvider } from '../contexts/UserContext.jsx'
-import { useUser } from '../hooks/useUser.jsx'
+import { useUser } from '../hooks/useUser.js'
 
 const RootLayout = () => {
 

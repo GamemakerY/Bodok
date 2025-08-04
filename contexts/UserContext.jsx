@@ -21,7 +21,6 @@ export function UserProvider({ children }){
             throw Error(error)
         }
             
-
     }
 
     async function register(email, password){

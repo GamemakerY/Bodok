@@ -6,12 +6,18 @@ import ThemedLogo from '../components/ThemedLogo'
 import Spacer from '../components/Spacer'
 import ThemedText from '../components/ThemedText'
 import { Colors } from '../constants/Colors'
+import GuestOnly from '../components/auth/GuestOnly'
+
+
+
 
 const Home = () => {
+  console.log('The API Key is', process.env.EXPO_PUBLIC_API)
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
 
   return (
+    <GuestOnly>
 
     <ThemedView style = {styles.container}>
 
@@ -34,12 +40,8 @@ const Home = () => {
       </Link>
       <Spacer height={10}/>
 
-      <Link href = '/profile' style = {[styles.link, {borderBottomColor: theme.textmuted}]}>
-      <ThemedText>Profile</ThemedText>
-      </Link>
-      <Spacer height={10}/>
-
     </ThemedView>
+    </GuestOnly>
   )
 }
 

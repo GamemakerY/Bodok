@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet, TouchableWithoutFeedback, useColorScheme} from 'react-native'
+import { ActivityIndicator, Keyboard, StyleSheet, TouchableWithoutFeedback, useColorScheme} from 'react-native'
 import { useState } from 'react'
 import ThemedView from '../../components/ThemedView'
 import Spacer from '../../components/Spacer'
@@ -9,6 +9,7 @@ import ThemedButton from '../../components/ThemedButton'
 import ThemedTextInput from '../../components/ThemedTextInput'
 import { useUser } from '../../hooks/useUser'
 import ThemedWarning from '../../components/ThemedWarning'
+import ThemedLoader from '../../components/ThemedLoader'
 
 
 const Login = () => {
@@ -28,7 +29,7 @@ const Login = () => {
         setError(null)
 
         try{
-            await login(email, password)
+        await login(email, password)
 
         } catch(error){
             setError(error)
