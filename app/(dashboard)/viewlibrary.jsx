@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Spacer from '../../components/Spacer'
 import ThemedText from '../../components/ThemedText'
@@ -6,6 +6,8 @@ import ThemedView from '../../components/ThemedView'
 import ThemedButton from '../../components/ThemedButton'
 import { router } from 'expo-router'
 import ThemedCard from '../../components/ThemedCard'
+import { useLibrary } from '../../hooks/useLibrary'
+
 
 const ViewLibrary = () => {
 
@@ -13,14 +15,20 @@ const ViewLibrary = () => {
       router.replace('/createbook')
     }
 
+  const {books} = useLibrary()
+
   return (
     <ThemedView  style={styles.container}>
-        <ThemedCard
-        icon= "book-outline"
-        heading= "Title"
-        text="Book description is a thing"
-        style = {{
-        }}/>
+        <FlatList
+        data = {books}
+        keyExtractor={(item) => item.$id}
+        contentContainerStyle = {styles.list}
+        renderItem={({item})=>(
+          <ThemedCard
+          icon='book-outline'
+          heading={item.title}
+          text={`By ${item.author}`}/>
+        )}/>
         
         <ThemedButton value = {'Add Books'} onPress={() => {handlePress()}}
          alignSelf="center"></ThemedButton>

@@ -89,6 +89,22 @@ export function LibraryProvider({children}){
         }
     }
 
+    async function fetchBooks(){
+        try{
+            const response = await databases.listDocuments(
+                DATABASE_ID,
+                COLLECTION_ID_BOOKS,
+                [
+                    Query.equal('userID', user.$id)
+                ]
+            )
+
+            setBooks(response.documents)
+        }catch(error){
+            console.log(error.message)
+        }
+    }
+
     async function fetchBookByID(data){
     try{
 
@@ -124,18 +140,22 @@ export function LibraryProvider({children}){
 
     useEffect(()=>{
         if (user){
-            async function run() {
-            await checkLibrary()
-            console.log('Checked library: ', libraryCheck)
-            }
-            run()
+            checkLibrary()
         } else{
             setLibrary()
         }
     }, [user])
 
+    useEffect(() => {
+        if (user){
+            fetchBooks()
+        } else{
+            setBooks([])
+        }
+    }, [user])
+
     return (
-        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary}}>
+        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks}}>
             {children}
         </LibraryContext.Provider>
     )
