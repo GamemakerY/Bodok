@@ -12,7 +12,7 @@ import { useLibrary } from '../../hooks/useLibrary'
 
 const Profile = () => {
 
-  const {setLibraryExist, libraryExist} = useLibrary()
+  const {setLibraryExist, libraryExist, librarySelf, books} = useLibrary()
   const {logout, user} = useUser()
 
   const viewLib = () => {
@@ -38,8 +38,8 @@ const Profile = () => {
    {libraryExist && <TouchableOpacity onPress={() => viewLib()}>
     <ThemedOption
     icon="library-outline"
-    heading="My Library"
-    text="3 Books"
+    heading={librarySelf[0].name}
+    text={`${books.length} Books`}
     />
     </TouchableOpacity>}
 

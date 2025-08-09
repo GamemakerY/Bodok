@@ -10,25 +10,25 @@ import Spacer from '../../components/Spacer'
 import ThemedButton from '../../components/ThemedButton'
 
 const CreateLibrary = () => {
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
+    const [name, setName] = useState('')
     const [description, setDescription] = useState('')
+    const [address, setAddress] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const {createBook} = useLibrary()
+    const {createLibrary} = useLibrary()
     const router = useRouter()
 
     const handleSubmit = async () => {
-      if (!title.trim() || !author.trim() || !description.trim()) return
+      if (!name.trim() || !description.trim() || !address.trim()) return
       setLoading(true)
 
-      await createBook({title, description, author})
+      await createLibrary({name, description, address})
       
-      setTitle("")
-      setAuthor("")
+      setName("")
       setDescription("")
+      setAddress("")
 
-      router.replace('/viewlibrary')
+      router.replace('/profile')
 
       setLoading(false)
     }
@@ -40,18 +40,20 @@ const CreateLibrary = () => {
     <ThemedText title={true} style = {styles.title}>Host Library</ThemedText>
 
     <ThemedTextInput placeholder = {"Library Name"} style = {styles.input}
-    onChangeText = {setTitle}
-    value = {title}></ThemedTextInput>
-
-    <Spacer height = {30}/>
-    <ThemedTextInput placeholder = {"Location"} style = {styles.input}
-    onChangeText = {setAuthor}
-    value = {author}></ThemedTextInput>
+    onChangeText = {setName}
+    value = {name}></ThemedTextInput>
 
     <Spacer  height = {30}/>
     <ThemedTextInput placeholder = {"Description"} style = {styles.multiline}
     onChangeText = {setDescription}
     value = {description}
+    multiline = {true}
+    textAlignVertical="top"></ThemedTextInput>
+
+    <Spacer  height = {30}/>
+    <ThemedTextInput placeholder = {"Address And Contact"} style = {styles.multiline}
+    onChangeText = {setAddress}
+    value = {address}
     multiline = {true}
     textAlignVertical="top"></ThemedTextInput>
 

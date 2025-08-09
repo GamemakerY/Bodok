@@ -20,6 +20,7 @@ export function LibraryProvider({children}){
     const [library, setLibrary] = useState()
     const [libraryCheck, setLibraryCheck] = useState()
     const [libraryExist, setLibraryExist] = useState()
+    const [librarySelf, setLibrarySelf] = useState([])
 
     const {user} = useUser()
 
@@ -38,6 +39,7 @@ export function LibraryProvider({children}){
             }
             else{
                 setLibraryExist(true)
+                setLibrarySelf(response.documents) 
             }
 
             console.log(libraryExist)
@@ -50,20 +52,21 @@ export function LibraryProvider({children}){
 
     async function createLibrary(data){
     try{
-        const newLibrary = await databases.createDocument(DATABASE_ID, 
+            const newLibrary = await databases.createDocument(DATABASE_ID, 
             COLLECTION_ID_LIBRARY, 
-        ID.unique(),
-    {...data, userId: user.$id },
-    [
-        Permission.read(Role.any()),
-        Permission.update(Role.user(user.$id)),
-        Permission.delete(Role.user(user.$id))
-    ])
+            ID.unique(),
+            {...data, userID: user.$id },
+        [
+            Permission.read(Role.any()),
+            Permission.update(Role.user(user.$id)),
+            Permission.delete(Role.user(user.$id))
+        ])
         
-    } catch (error){
-            console.error(error.message)
+        } catch (error){
+            console.log(error.message)
         }
     }
+
 
     async function createBook(data){
         try{
@@ -102,11 +105,17 @@ export function LibraryProvider({children}){
             )
 
             setBooks(response.documents)
+            
         }catch(error){
             console.log(error.message)
         }
     }
 
+
+
+        
+
+    
     async function fetchBookByID(data){
     try{
 
@@ -134,16 +143,22 @@ export function LibraryProvider({children}){
 
     useEffect(() => {
         if (user){
+            fetchBooks()
             setLibraryCheck(true)
             checkLibrary()
-            fetchBooks()
+            
         } else{
             setBooks([])
         }
-    }, [user])
+    }, [user, library])
+
+    //useEffect(()=>{
+    //    setLibrarySelf()
+    //}, [librarySelf])
+
 
     return (
-        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist}}>
+        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist, librarySelf}}>
             {children}
         </LibraryContext.Provider>
     )
