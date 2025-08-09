@@ -61,6 +61,7 @@ const DashboardLayout = () => {
 
     <Tabs.Screen name = 'createbook' options={{href: null}}/>
     <Tabs.Screen name = 'viewlibrary' options={{href: null}}/>
+    <Tabs.Screen name = 'createlibrary' options={{href: null}}/>
 
     </Tabs>  
     </UserOnly>

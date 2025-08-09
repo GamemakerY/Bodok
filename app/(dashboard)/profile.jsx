@@ -8,13 +8,19 @@ import ThemedButton from '../../components/ThemedButton'
 import ThemedOption from '../../components/ThemedOption'
 import { router } from 'expo-router'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useLibrary } from '../../hooks/useLibrary'
 
 const Profile = () => {
 
+  const {setLibraryExist, libraryExist} = useLibrary()
   const {logout, user} = useUser()
 
-  const handlePress = () => {
+  const viewLib = () => {
     router.replace('/viewlibrary')
+  }
+
+  const createLib = () => {
+    router.replace('/createlibrary')
   }
 
   return (
@@ -28,19 +34,26 @@ const Profile = () => {
 
     <Spacer height = {5}/>
 
-    <TouchableOpacity onPress={() => handlePress()}>
-    
+
+   {libraryExist && <TouchableOpacity onPress={() => viewLib()}>
     <ThemedOption
     icon="library-outline"
     heading="My Library"
     text="3 Books"
-    arrow={true}
     />
-    </TouchableOpacity>
+    </TouchableOpacity>}
+
+    {!libraryExist && <TouchableOpacity onPress={() => createLib()}>
+    <ThemedOption
+    icon="add-outline"
+    heading="Host Your Own Library"
+    />
+    </TouchableOpacity>}
 
     <View style = {{
       alignSelf: 'center'
     }}>
+
     <ThemedButton onPress={logout} value={'Logout'} >
     </ThemedButton>
     </View>  

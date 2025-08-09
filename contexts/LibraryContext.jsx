@@ -18,29 +18,31 @@ const COLLECTION_ID_LIBRARY='68857e0c000ebfe7cab1'
 export function LibraryProvider({children}){
     const [books, setBooks] = useState([])
     const [library, setLibrary] = useState()
-    const [libraryCheck, setLibraryCheck] = useState(null)
+    const [libraryCheck, setLibraryCheck] = useState()
+    const [libraryExist, setLibraryExist] = useState()
 
     const {user} = useUser()
 
     async function checkLibrary(){
-        console.log('test')
         try{
-            console.log("tryinh..")
             const response = await databases.listDocuments(
                 DATABASE_ID,
                 COLLECTION_ID_LIBRARY,
                 [
-                    Query.equal('userId', user.$id)
+                    Query.equal('userID', user.$id)
                 ]
             )
-            if (!response){
-                setLibraryCheck(false)
-                console.log('false')
+
+            if (response.total == 0){
+                setLibraryExist(false)
             }
             else{
-                setLibraryCheck(true)
-                console.log('true')
+                setLibraryExist(true)
             }
+
+            console.log(libraryExist)
+
+
         } catch(error){
             console.log(error.message)
         }
@@ -130,24 +132,10 @@ export function LibraryProvider({children}){
         }
     }
 
-    async function checkLibrary(id){
-        try{
-
-        } catch (error){
-            console.error(error.message)
-        }
-    }
-
-    useEffect(()=>{
-        if (user){
-            checkLibrary()
-        } else{
-            setLibrary()
-        }
-    }, [user])
-
     useEffect(() => {
         if (user){
+            setLibraryCheck(true)
+            checkLibrary()
             fetchBooks()
         } else{
             setBooks([])
@@ -155,7 +143,7 @@ export function LibraryProvider({children}){
     }, [user])
 
     return (
-        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks}}>
+        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist}}>
             {children}
         </LibraryContext.Provider>
     )
