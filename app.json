@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true
-    }, 
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -28,6 +28,12 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "47b60e9b-5119-476f-9c8a-ce14ea555de6"
+      }
+    }
   }
 }
