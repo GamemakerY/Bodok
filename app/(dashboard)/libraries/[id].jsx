@@ -6,6 +6,7 @@ import Spacer from '../../../components/Spacer'
 import ThemedText from '../../../components/ThemedText'
 import { useLibrary } from '../../../hooks/useLibrary'
 import ThemedCard from '../../../components/ThemedCard'
+import ThemedLoader from '../../../components/ThemedLoader'
 
 const LibraryDetails = () => {
 
@@ -16,10 +17,14 @@ const LibraryDetails = () => {
     useEffect(() => {
         if (id) {
             fetchLibraryByID(id);
-            console.log(viewLibrary)
         }
     }, [fetchLibraryByID, id]);
 
+    if (viewLibrary.length === 0) {
+        return (
+            <ThemedLoader/>
+        )
+    }
 
   return (
     <ThemedView  style={styles.container}>

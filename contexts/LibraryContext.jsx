@@ -64,6 +64,7 @@ export function LibraryProvider({children}){
         ])
 
         setLibrarySelf((prevLibraries) => [...prevLibraries, newLibrary]);
+        setLibraryExist(true)
 
         } catch (error){
             console.log(error.message)
