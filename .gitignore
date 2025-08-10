@@ -35,3 +35,12 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+*.jks
+*.keystore
+**/android/app/keystore/*.jks
+**/android/app/keystore/*.keystore
+**/android/app/src/main/assets/expo-go-cert.pem
+**/android/app/src/main/res/raw/credentials.json
+credentials.json
+eas.json
