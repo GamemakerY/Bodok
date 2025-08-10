@@ -19,6 +19,9 @@ const ViewLibrary = () => {
 
   return (
     <ThemedView  style={styles.container}>
+      <Spacer height = {20}/>
+      <ThemedText style = {styles.heading} title={true}>Here are all your books:</ThemedText>
+      <Spacer height = {20}/>
         <FlatList
         data = {books}
         keyExtractor={(item) => item.$id}
@@ -46,4 +49,9 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         padding: 15
     },
+      heading: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        textAligh: 'center'
+    }
 })

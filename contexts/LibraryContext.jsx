@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Databases, ID, Permission, Query, Role } from "react-native-appwrite";
-import { databases } from "../lib/appwrite";
+import { client, databases } from "../lib/appwrite";
 import { useUser } from "../hooks/useUser";
 
 
@@ -21,6 +21,7 @@ export function LibraryProvider({children}){
     const [libraryCheck, setLibraryCheck] = useState()
     const [libraryExist, setLibraryExist] = useState()
     const [librarySelf, setLibrarySelf] = useState([])
+    const [libraries, setLibraries] = useState([])
 
     const {user} = useUser()
 
@@ -42,8 +43,6 @@ export function LibraryProvider({children}){
                 setLibrarySelf(response.documents) 
             }
 
-            console.log(libraryExist)
-
 
         } catch(error){
             console.log(error.message)
@@ -61,7 +60,9 @@ export function LibraryProvider({children}){
             Permission.update(Role.user(user.$id)),
             Permission.delete(Role.user(user.$id))
         ])
-        
+
+        setLibrarySelf((prevLibraries) => [...prevLibraries, newLibrary]);
+
         } catch (error){
             console.log(error.message)
         }
@@ -70,7 +71,7 @@ export function LibraryProvider({children}){
 
     async function createBook(data){
         try{
-            const newLibrary = await databases.createDocument(DATABASE_ID, 
+            const newBook = await databases.createDocument(DATABASE_ID, 
             COLLECTION_ID_BOOKS, 
             ID.unique(),
             {...data, userID: user.$id },
@@ -79,6 +80,8 @@ export function LibraryProvider({children}){
             Permission.update(Role.user(user.$id)),
             Permission.delete(Role.user(user.$id))
         ])
+
+        setBooks((prevBooks) => [...prevBooks, newBook]);
         
         } catch (error){
             console.log(error.message)
@@ -111,6 +114,20 @@ export function LibraryProvider({children}){
         }
     }
 
+    async function fetchLibraries(){
+        try{
+            const response = await databases.listDocuments(
+                DATABASE_ID,
+                COLLECTION_ID_LIBRARY
+            )
+
+            setLibraries(response.documents)
+            
+        }catch(error){
+            console.log(error.message)
+        }
+    }
+
 
 
         
@@ -120,7 +137,7 @@ export function LibraryProvider({children}){
     try{
 
     } catch (error){
-            console.error(error.message)
+            console.log(error.message)
         }
     }
 
@@ -128,7 +145,7 @@ export function LibraryProvider({children}){
     try{
 
     } catch (error){
-            console.error(error.message)
+            console.log(error.message)
         }
     }
 
@@ -137,20 +154,46 @@ export function LibraryProvider({children}){
     try{
 
     } catch (error){
-            console.error(error.message)
+            console.log(error.message)
         }
     }
 
     useEffect(() => {
+
+        console.log("running...")
+        try{
+        let unsubscribe
+        const channel = `databases.${DATABASE_ID}.collections.${COLLECTION_ID_LIBRARY}.documents`
+
+
         if (user){
-            fetchBooks()
             setLibraryCheck(true)
             checkLibrary()
+            fetchBooks()
+            fetchLibraries()
             
+            unsubscribe = client.subscribe(channel, (response) => {
+                const {payload, events} = response
+                if (events[0].includes('create')){
+                    setBooks((prevBooks)=>[...prevBooks, payload])
+                }
+
+            })
         } else{
             setBooks([])
+            setLibraries([])
+            setLibrarySelf([])
         }
-    }, [user, library])
+
+        return () => {
+            if (unsubscribe) unsubscribe()
+        }
+        } catch(error){
+            console.log(error.message)
+        }
+        
+
+    }, [user])
 
     //useEffect(()=>{
     //    setLibrarySelf()
@@ -158,7 +201,7 @@ export function LibraryProvider({children}){
 
 
     return (
-        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist, librarySelf}}>
+        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist, librarySelf, libraries}}>
             {children}
         </LibraryContext.Provider>
     )

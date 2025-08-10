@@ -38,7 +38,7 @@ const DashboardLayout = () => {
 
       />)}}/>
 
-    <Tabs.Screen 
+    {/*<Tabs.Screen 
     name = "saved" 
     options={{title: "Saved", tabBarIcon: ({focused}) => (
       <Ionicons
@@ -46,7 +46,7 @@ const DashboardLayout = () => {
       name={focused ? 'book' : 'book-outline'}
       color={focused ? theme.textmuted : theme.text}
 
-      />)}}/>
+      />)}}/>*/}
 
         <Tabs.Screen 
     name = "profile" 
@@ -62,6 +62,8 @@ const DashboardLayout = () => {
     <Tabs.Screen name = 'createbook' options={{href: null}}/>
     <Tabs.Screen name = 'viewlibrary' options={{href: null}}/>
     <Tabs.Screen name = 'createlibrary' options={{href: null}}/>
+    <Tabs.Screen name = 'saved' options={{href: null}}/>
+    <Tabs.Screen name = 'libraries/[id]' options={{href: null}}/>
 
     </Tabs>  
     </UserOnly>
