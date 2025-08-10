@@ -11,7 +11,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useLibrary } from '../../hooks/useLibrary'
 
 const Profile = () => {
-
   const {setLibraryExist, libraryExist, librarySelf, books} = useLibrary()
   const {logout, user} = useUser()
 

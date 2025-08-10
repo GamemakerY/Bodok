@@ -22,6 +22,8 @@ export function LibraryProvider({children}){
     const [libraryExist, setLibraryExist] = useState()
     const [librarySelf, setLibrarySelf] = useState([])
     const [libraries, setLibraries] = useState([])
+    const [viewBooks, setViewBooks] = useState([])
+    const [viewLibrary, setViewLibrary] = useState([])
 
     const {user} = useUser()
 
@@ -90,10 +92,19 @@ export function LibraryProvider({children}){
 
 
     async function fetchLibraryByID(id){
-    try{
+        try{
+            const response = await databases.listDocuments(
+                DATABASE_ID,
+                COLLECTION_ID_LIBRARY,
+                [
+                    Query.equal('userID', id)
+                ]
+            )
 
-    } catch (error){
-            console.error(error.message)
+            setViewLibrary(response.documents)
+
+        }catch(error){
+            console.log(error.message)
         }
     }
 
@@ -133,10 +144,19 @@ export function LibraryProvider({children}){
         
 
     
-    async function fetchBookByID(data){
-    try{
+    async function fetchBookByID(id){
+        try{
+            const response = await databases.listDocuments(
+                DATABASE_ID,
+                COLLECTION_ID_BOOKS,
+                [
+                    Query.equal('userID', id)
+                ]
+            )
 
-    } catch (error){
+            setViewBooks(response.documents)
+            
+        }catch(error){
             console.log(error.message)
         }
     }
@@ -191,17 +211,11 @@ export function LibraryProvider({children}){
         } catch(error){
             console.log(error.message)
         }
-        
-
     }, [user])
-
-    //useEffect(()=>{
-    //    setLibrarySelf()
-    //}, [librarySelf])
 
 
     return (
-        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist, librarySelf, libraries}}>
+        <LibraryContext.Provider value = {{library, books, createLibrary, createBook, fetchLibraryByID, fetchBookByID, deleteLibrary, deleteBook, checkLibrary, fetchBooks, setLibraryExist, libraryExist, librarySelf, libraries, viewBooks, fetchBookByID, viewLibrary}}>
             {children}
         </LibraryContext.Provider>
     )
