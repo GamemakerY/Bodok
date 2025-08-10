@@ -44,3 +44,6 @@ yarn-error.*
 **/android/app/src/main/res/raw/credentials.json
 credentials.json
 eas.json
+
+/android
+/ios
